@@ -12,7 +12,7 @@ public class TelaInicial {
     Usuario usuario = new Usuario();
 
     public TelaInicial(int saldo) {
-        this.saldo = 3000;
+        this.saldo = saldo;
     }
 
     public int getEscolha() {
@@ -23,6 +23,10 @@ public class TelaInicial {
         return saldo;
     }
 
+    public void setSaldo(int novoSaldo) {
+        this.saldo = novoSaldo;
+    }
+
     //variaveis do pix
     private int transferencia;
     private int saldoTransferencia;
@@ -31,8 +35,14 @@ public class TelaInicial {
     public void novaTransferencia(){
         System.out.println("Quantos deseja transferir: ");
         transferencia = ler.nextInt();
-        int saldoTransferencia = getSaldo() - transferencia;
-        System.out.println("Saldo final: " + saldoTransferencia);
+
+        if(transferencia <= getSaldo()){
+            setSaldo(getSaldo() - transferencia);
+            System.out.println("Transferencia realizada!");
+            System.out.println("Saldo Atual: " + getSaldo());
+        }else{
+            System.out.println("Saldo Insuficiente");
+        }
     }
 
     // variaveis do cartao
@@ -72,27 +82,31 @@ public class TelaInicial {
         System.out.println("CVC: " + getCvcCredito());
     }
 
+
     // Variaveis Emprestimo
     private int valorEmprestimo = 4000;
-    private int emprestar;
     private int saldoAtualEmprestimo;
+    private int emprestar;
+
 
     // Função Emprestimo
     public void pegarEmprestimo(){
         System.out.println("Valor para emprestimo: " + valorEmprestimo);
+        System.out.println("Saldo atual: " + getSaldo());
         System.out.println("Quantos deseja emprestar: ");
         emprestar = ler.nextInt();
-        saldoAtualEmprestimo = getSaldo() + emprestar;
-        System.out.println("Saldo Atual: " + saldoAtualEmprestimo);
+
+        if(emprestar <= valorEmprestimo){
+            setSaldo(getSaldo() + emprestar);
+            valorEmprestimo -= emprestar;
+            System.out.println("Empréstimo realizado!");
+            System.out.println("Saldo Atual: " + getSaldo());
+            System.out.println("Valor restante para empréstimo: " + valorEmprestimo);
+        }else{
+            System.out.println("Valor solicitado excede o limite disponível.,");
+        }
     }
 
-    public int getValorEmprestimo() {
-        return valorEmprestimo;
-    }
-
-    public void setValorEmprestimo(int valorEmprestimo) {
-        this.valorEmprestimo = valorEmprestimo;
-    }
 
     // Variaveis Investimento
     private int investir;
@@ -101,13 +115,18 @@ public class TelaInicial {
     // Função investimento
     public void investirCDI(){
         System.out.println("Bem Vindo ao porquinho, aqui rende 100% do CDI\n");
+        System.out.println("Saldo atual: " + getSaldo());
         System.out.println("Quantos deseja investir: ");
         investir = ler.nextInt();
 
-        System.out.println("Valor investido: " + investir);
-
-        saldoAtualInvestimento = getSaldo() - investir;
-        System.out.println("Saldo Atual da carteira: " + saldoAtualInvestimento);
+        if(investir <= getSaldo()){
+            System.out.println("Sucesso no investimento!");
+            System.out.println("Valor investido: " + investir);
+            setSaldo(getSaldo() - investir);
+            System.out.println("Saldo atual: " + getSaldo());
+        }else{
+            System.out.println("Saldo insuficiente.");
+        }
     }
 
     public void poupanca(){
@@ -115,20 +134,28 @@ public class TelaInicial {
         System.out.println("Quantos deseja investir: ");
         investir = ler.nextInt();
 
-        System.out.println("Valor investido: " + investir);
-
-        saldoAtualInvestimento = getSaldo() - investir;
-        System.out.println("Saldo Atual da carteira: " + saldoAtualInvestimento);
+        if(investir <= getSaldo()){
+            System.out.println("Sucesso no investimento!");
+            System.out.println("Valor investido: " + investir);
+            setSaldo(getSaldo() - investir);
+            System.out.println("Saldo atual: " + getSaldo());
+        }else{
+            System.out.println("Saldo insuficiente.");
+        }
     }
 
 
     // APARECE DEPOIS DO LOGIN OU CADASTRO
     public void escolherFuncao() {
-        while (true) {
+        do {
+
+
+            System.out.println("\nSaldo atual: " + getSaldo());
             System.out.println("1 - Área Pix\n");
             System.out.println("2 - Cartões\n");
             System.out.println("3 - Empréstimos\n");
             System.out.println("4 - Investimentos\n");
+            System.out.println("5 - Sair");
             escolha = ler.nextInt();
 
             switch (getEscolha()) {
@@ -155,6 +182,7 @@ public class TelaInicial {
                 case 3:
                     pegarEmprestimo();
                     break;
+
                 case 4:
                     System.out.println("1 - Porquinho (100% CDI)\n");
                     System.out.println("2 - Poupança");
@@ -169,8 +197,13 @@ public class TelaInicial {
                             break;
                     }
                     break;
+
+                case 5:
+                    System.out.println("Obrigado por usar nossos serviços!");
+                    System.out.println("Encerrando...");
+                    break;
             }
-        }
+        } while(getEscolha() != 5);
 
 
     }

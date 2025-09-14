@@ -8,7 +8,6 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Usuario usuario = new Usuario();
-        TelaInicial inicial = new TelaInicial(3000);
         Scanner ler = new Scanner(System.in);
 
         System.out.println("Bem vindo ao yujubank\n");
@@ -25,7 +24,7 @@ public class Main {
             usuario.senhaDoUsuario();
         }
 
-        System.out.println("Saldo Atual: " + inicial.getSaldo());
+        TelaInicial inicial = new TelaInicial(3000);
         inicial.escolherFuncao();
 
     }
